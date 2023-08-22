@@ -1,23 +1,27 @@
-import logo from './logo.svg';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import { Route,Routes } from 'react-router-dom';
+import Header from './Component/Layout/Header';
+import LoginForm from './Component/Pages/LoginForm';
+import MailBox from './Component/Pages/Mailbox';
+import Inbox from './Component/Pages/Inbox';
+import SentMail from './Component/Pages/SentMail';
+import ForgotPassword from './Component/Pages/ForgotPassword';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='app-body'>
+      <Header/>
+      {/* <SiderBar/> */}
+      <Routes>
+      <Route path="/" element={ <LoginForm/>} />
+      {/* <Route path="/sidebar" element={<SiderBar/>}/> */}
+      <Route path="/mailbox" element={ <MailBox/>} />
+      <Route path="/inbox" element={<Inbox/>}/>
+      <Route path="/sent" element={<SentMail/>}/>
+      <Route path='/forgotpassword' element={<ForgotPassword/>}/>
+      </Routes>
     </div>
   );
 }
