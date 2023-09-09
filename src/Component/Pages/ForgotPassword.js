@@ -7,7 +7,7 @@ function ForgotPassword() {
 
     const forgotPasswordHandler = () => {
         fetch(
-          "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDdfhYYKbljPUoCi54zxzAh7RZ9GSY8wgY",
+          "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyAKZXbHRQvYSnlbM_2ls16Yo16ZyQOI09I",
           {
             method: "POST",
             body: JSON.stringify({

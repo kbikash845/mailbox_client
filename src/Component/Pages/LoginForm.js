@@ -1,90 +1,81 @@
-import { useState, useRef} from "react";
-import { Link, useNavigate} from "react-router-dom";
+import { useState, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authActions } from "../../store/auth";
 
-
 function LoginForm() {
-    const [isLogin, setIsLogin] = useState(true);
-    const [isLoading,setisLoading]=useState(false);
-    const emailInputRef = useRef();
-    const passwordInputRef = useRef();
-    const confirmPasswordInputRef = useRef();
+  const [isLogin, setIsLogin] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const emailInputRef = useRef();
+  const passwordInputRef = useRef();
+  const confirmPasswordInputRef = useRef();
 
-    const dispatch=useDispatch()
-    const navigate=useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    
-    
+  const switchAuthModeHandler = () => {
+    setIsLogin((prevState) => !prevState);
+  };
 
-    const switchAuthModeHandler = () => {
-        setIsLogin((prevState) => !prevState);
-      };
-      const submitHandler = (event) => {
-        event.preventDefault();
-        const enteredEmail = emailInputRef.current.value;
-        const enteredPassword = passwordInputRef.current.value;
-        const confirmPassword=confirmPasswordInputRef.current.value;
-        console.log(enteredEmail, enteredPassword,confirmPassword);
-    
-        localStorage.setItem("email",enteredEmail);
-    
-    
-        if(enteredPassword===confirmPassword){
-        setisLoading(true)
-        let url;
-        if (isLogin) {
-          url="https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyA18GL6mV5KB0WSvzpwufiQOmr5J0l_bvc"
+  const confirmPasswordMatch = () => {
+    if (!isLogin) {
+      const enteredPassword = passwordInputRef.current.value;
+      const enteredConfirmPassword = confirmPasswordInputRef.current.value;
+      return enteredPassword === enteredConfirmPassword;
+    }
+    return true;
+  };
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+    const enteredEmail = emailInputRef.current.value;
+    const enteredPassword = passwordInputRef.current.value;
+    localStorage.setItem("email",enteredEmail);
+    if (!isLogin && !confirmPasswordMatch()) {
+      alert("Passwords don't match. Please enter matching passwords.");
+      return;
+    }
+
+    setIsLoading(true);
+
+    let url;
+    if (isLogin) {
+      url = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDFGQ-Z63UpJRSLyJlRPhG6iJWEi30MNb4";
+    } else {
+      url = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDFGQ-Z63UpJRSLyJlRPhG6iJWEi30MNb4";
+    }
+
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        email: enteredEmail,
+        password: enteredPassword,
+        returnSecureToken: true,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        setIsLoading(false);
+        if (response.ok) {
+          return response.json();
         } else {
-          url="https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA18GL6mV5KB0WSvzpwufiQOmr5J0l_bvc"
+          return response.json().then((data) => {
+            let errorMessage = "Authentication failed!";
+            throw new Error(errorMessage);
+          });
         }
-        fetch(url,
-          {
-            method: "POST",
-            body: JSON.stringify({
-              email: enteredEmail,
-              password: enteredPassword,
-              returnSecureToken: true,
-            }),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        ).then((response) => {
-          setisLoading(false)
-          if (response.ok) {
-            return response.json()
-          } else {
-            //The response holds error
-            return response.json().then((data) => {
-              console.log(data);
-              let errorMessage="Authencation failed!";
-              // if(data && data.error && data.error.message){
-              //   errorMessage=data.error.message 
-              // }
-              // alert(errorMessage);
-              throw new Error(errorMessage)
-            });
-          }
-        }).then(data=>{
-          console.log(data)
-          // authCtx.login(data.idToken);
-    
-          dispatch(authActions.login(data.idToken))
-         
-            console.log("successfully sign up")
-            navigate("/mailbox");
-        //   authCtx.autoLogout();
-          
-        }).catch(err=>{
-          alert(err.message);
-        })
-      }
-      else{
-        alert("Password is wrong")
-        
-      }
-      }
+      })
+      .then((data) => {
+        dispatch(authActions.login(data.idToken));
+        console.log("Successfully signed up or logged in");
+        navigate("/mailbox");
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+  };
   return (
     <div>
     <form
