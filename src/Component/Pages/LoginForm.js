@@ -40,9 +40,9 @@ function LoginForm() {
 
     let url;
     if (isLogin) {
-      url = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDFGQ-Z63UpJRSLyJlRPhG6iJWEi30MNb4";
+      url = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyChMvzbUn0WbOnOwZH70XP-GAPemQP_4fI";
     } else {
-      url = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDFGQ-Z63UpJRSLyJlRPhG6iJWEi30MNb4";
+      url = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyChMvzbUn0WbOnOwZH70XP-GAPemQP_4fI";
     }
 
     fetch(url, {

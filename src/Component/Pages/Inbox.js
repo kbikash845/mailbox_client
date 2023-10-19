@@ -32,7 +32,7 @@ export default function Inbox() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://mailbox-client-b5bcc-default-rtdb.firebaseio.com/user/${updatedEmail}.json`
+          `https://mail-client-box-973fe-default-rtdb.firebaseio.com/user/${updatedEmail}.json`
         );
         const data = await response.json();
         console.log("DATA", data);
@@ -77,7 +77,7 @@ export default function Inbox() {
 
     try {
       const response = await fetch(
-        `https://mailbox-client-b5bcc-default-rtdb.firebaseio.com/user/${updatedEmail}/${emailId}.json`,
+        `https://mail-client-box-973fe-default-rtdb.firebaseio.com/user/${updatedEmail}/${emailId}.json`,
         {
           method: "PUT",
           body: JSON.stringify({

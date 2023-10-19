@@ -27,7 +27,7 @@ export default function SentMail() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://mailbox-client-b5bcc-default-rtdb.firebaseio.com/sent/user/${updatedEmail}.json`
+          `https://mail-client-box-973fe-default-rtdb.firebaseio.com/sent/user/${updatedEmail}.json`
         );
         const data = await response.json();
         console.log("DATA", data);
@@ -64,7 +64,7 @@ export default function SentMail() {
 
     try {
       const response = await fetch(
-        `https://mailbox-client-b5bcc-default-rtdb.firebaseio.com/sent/user/${updatedEmail}/${emailId}.json`,
+        `https://mail-client-box-973fe-default-rtdb.firebaseio.com/sent/user/${updatedEmail}/${emailId}.json`,
         {
           method: "PUT",
           body: JSON.stringify({
@@ -92,7 +92,7 @@ export default function SentMail() {
   const handleDeleteEmail =(emailId) => {
     
     fetch(
-        `https://mailbox-client-b5bcc-default-rtdb.firebaseio.com/sent/user/${updatedEmail}/${emailId}.json`,
+        `https://mail-client-box-973fe-default-rtdb.firebaseio.com/sent/user/${updatedEmail}/${emailId}.json`,
         {
           method: "DELETE",
         }

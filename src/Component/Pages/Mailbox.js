@@ -60,7 +60,7 @@ function MailBox() {
 
     console.log("newData",newData)
             // Send a POST request to store the new data in the database
-    fetch(`https://mailbox-client-b5bcc-default-rtdb.firebaseio.com/user/${changedemail}.json`, {
+    fetch(`https://mail-client-box-973fe-default-rtdb.firebaseio.com/user/${changedemail}.json`, {
         method: 'POST',
         body: JSON.stringify(newData),
         headers: { 'Content-Type': 'application/json' },
@@ -72,7 +72,7 @@ function MailBox() {
         sendTime: currentTime // Include received time in newData
         };
        console.log("senddata",senddata)
-      fetch(`https://mailbox-client-b5bcc-default-rtdb.firebaseio.com/sent/user/${changedEnteredEmail}.json`, {
+      fetch(`https://mail-client-box-973fe-default-rtdb.firebaseio.com/sent/user/${changedEnteredEmail}.json`, {
         method: 'POST',
         body: JSON.stringify(senddata),
         headers: { 'Content-Type': 'application/json' },
